@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<style>
+    /* In styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-image: url(https://dolphinint.com.my/wp-content/uploads/2022/12/banner-1.jpg);
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+    background-color: #f2f2f2;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+</style>   
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <h2>Home</h2>
+    <table>
+        <tr>
+            <th>Sr No</th>
+            <th>Username</th>
+            <th>Actions</th>  
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ user.username }}</td>
+            <td>
+               
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <input type="text" name="new_username" placeholder="New Username" required>
+                    <button type="submit" name="update">Update</button>
+                </form>
+                
+                <form method="POST" style="margin-top: 5px;">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <button type="submit" name="delete" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'login' %}">Logout</a>
+</body>
+</html>
